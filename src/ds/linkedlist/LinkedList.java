@@ -1,7 +1,10 @@
 package ds.linkedlist;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class LinkedList {
 
@@ -178,21 +181,21 @@ public class LinkedList {
 		}
 		return 0;
 	}
-	
+
 	public int getNthNodeFromEnd(Node head, int n) {
-		
+
 		Node node = head;
 		int count = 0;
-		
+
 		while(node != null) {
 			node = node.next;
 			count++;
 		}
-		
+
 		if(count < n) {
 			return 0;
 		}
-		
+
 		int nFromStart = count- n + 1;
 		node = head;
 		count =1;
@@ -212,7 +215,7 @@ public class LinkedList {
 		Set<Node> hSet = new HashSet<Node>();
 		while(node!= null) {
 
-			
+
 			if(hSet.contains(node)) {
 				return true;
 			}
@@ -227,37 +230,37 @@ public class LinkedList {
 		Node node = head;
 		Node slowPointer = node;
 		Node fastPointer = node;
-		
+
 		if(node == null) {
 			return null;
 		}
-		
+
 		while(fastPointer != null && fastPointer.next != null) {
 			slowPointer = slowPointer.next;
 			fastPointer = fastPointer.next.next;
 		}
-		
+
 		return slowPointer;
-		
+
 	}
-	
+
 	public int getNoOfOccurences(Node head, int x) {
-		
+
 		if(head == null) {
 			return 0;
 		}
 		Node node = head;
 		int count = 0;
 		while(node != null) {
-			
+
 			if(node.data == x)
 			{ 
-			count++;	
+				count++;	
 			}
 			node = node.next;
 		}
-		
-		
+
+
 		return count;
 	}
 
@@ -268,36 +271,157 @@ public class LinkedList {
 		}else if(node == node.next) {
 			return false;
 		}else {
-		
-		Node prev = node;
-		Node curr = node;
-			
-		while(node!= null) {
-		
-			if(prev.data < search.data && search.data < curr.data) {
-				search.next = prev.next;
-				prev.next = search;
+
+			Node prev = node;
+			Node curr = node;
+
+			while(node!= null) {
+
+				if(prev.data < search.data && search.data < curr.data) {
+					search.next = prev.next;
+					prev.next = search;
+				}
+				node = node.next;
+
 			}
-			node = node.next;
-			
-		}
-		
-		
+
+
 		}
 		return false;
 	}
+
+	public int getDecimalValue(Node head) {
+		Stack<Integer> s = new Stack<Integer>();
+
+		while(head != null){
+			s.push(head.data);
+			head = head.next;
+		}
+
+		int index = 0;
+		int result = 0;
+
+		while(!s.empty()){
+			result = result + ((int)Math.pow(2,index)* s.pop());
+			index++;
+		}
+
+
+		return result;
+
+	}
+
+	public int loopLength(Node head){
+
+		Node slowP = head;
+		Node fastP = head;
+		boolean flag = false;
+
+		while(fastP != null || fastP.next != null){
+			slowP = slowP.next;
+			fastP = fastP.next.next;
+
+			if(slowP == fastP){
+				flag = true;
+				break;
+			}
+		}
+
+		int count = 0;
+		if(flag == true){
+			do{
+				slowP = slowP.next;
+				count++;
+			}while(slowP != fastP);
+		}
+
+		return count;
+	}
+
+	public Node reverseLL(Node head) {
+
+		Node p = head;
+		Node q = null;
+		Node r = null;
+
+		while(p != null) {
+			r = q;
+			q = p;
+			p = p.next;
+			q.next = r;
+		}
+
+		head = q;
+
+		return head;
+	}
+
+	public Node removeDups(Node node){
+
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		Node head = node;
+		Node prev = null;
+
+		while(head != null){
+			if(!map.containsKey(head.data)){
+				map.put(head.data, 1);
+			}else{
+				head = head.next;
+				prev.next = head;
+				continue;
+			}
+
+			prev = head;
+			head = head.next;
+		}
+
+		return node;
+	}
 	
+	public Node removeDupsSortedLL(Node node){
+	
+		Node head = node;
+		Node prev = null;
+		
+		while(head != null) {
+			if(prev != null && head.data == prev.data) {
+				head = head.next;
+				prev.next = head;
+				continue;
+			}
+			
+			prev = head;
+			head = head.next;
+		}
+		
+		return node;
+		
+	}
+
+	public Node mergeLL(Node node1, Node node2) {
+		Node first = node1;
+		Node second = node2;
+			
+		return null;
+		
+	}
 	
 	public static void main(String[] args) {
 
-		LinkedList sortedLL = new LinkedList();
-		sortedLL.pushAtEnd(1);
-		sortedLL.pushAtEnd(3);
-		sortedLL.pushAtEnd(4);
-		sortedLL.pushAtEnd(5);
-		sortedLL.pushAtEnd(3);
-		sortedLL.printLL();
-		System.out.println(sortedLL.getNoOfOccurences(sortedLL.head, 3));
+		LinkedList ll = new LinkedList();
+		ll.pushAtEnd(11);
+		ll.pushAtEnd(11);
+		ll.pushAtEnd(11);
+		ll.pushAtEnd(13);
+		ll.pushAtEnd(13);
+		ll.pushAtEnd(20);
+		
+		Node node = ll.removeDupsSortedLL(ll.head);
+		
+		while(node != null) {
+			System.out.println(node.data);
+			node = node.next;
+		}
 	}
 
 }

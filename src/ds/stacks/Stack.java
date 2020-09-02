@@ -33,14 +33,65 @@ public class Stack {
 		}
 		return x;
 	}
+
+	public void reverseStack(java.util.Stack<Integer> s, int i){
+		if(s.isEmpty()) {
+			return;
+		}
+		i = s.pop();
+		reverseStack(s, i);
+		insertAtBottom(s, i, 0);
+	}
+
+	private void insertAtBottom(java.util.Stack<Integer> s, int x, int ele) {
+		if(s.isEmpty()) {
+			s.push(x);
+			return;
+		}
+		ele = s.pop();
+		insertAtBottom(s, x, ele);
+		
+		s.push(ele);
+	}
+	
+	public void sortStack(java.util.Stack<Integer> s, int x){
+		if(s.isEmpty()) {
+			return;
+		}
+		
+		x = s.pop();
+		sortStack(s, x);
+		sort(s, x, 0);
+	}
+
+	
+	public void sort(java.util.Stack<Integer> s, int x, int ele) {
+		if(s.isEmpty()) {
+			s.push(x);
+			return;
+		}
+		
+		if(s.peek() < x) {
+			ele = s.pop();
+			sort(s, x, ele);
+			s.push(ele);
+		}else {
+			s.push(x);
+		}
+		
+	}
 	
 	public static void main(String[] args) {
-		Stack s = new Stack();
-		s.push(2);
+		java.util.Stack<Integer> s = new java.util.Stack<>();
+		s.push(9);
 		s.push(4);
-		s.push(6);
+		s.push(20);
 		s.push(8);
-		s.pop();
-		System.out.println("TOS is :" + s.tos);
+
+		new Stack().sortStack(s,0);
+
+		while(!s.isEmpty()) {
+			System.out.println(s.pop());
+		}
 	}
 }

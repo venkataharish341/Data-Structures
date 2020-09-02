@@ -20,39 +20,45 @@ public class BinarySearchTree {
 			}
 		}
 	}
-
-
-	public Node searchNonRecursive(Node node, int data) {
-		if(node == null) {
-			return null;
-		}else 
-		{
-			/*if() {
-			}*/	
+	
+	public void insert(int data) {
+		root = insert(root, data );
+	}
+	
+	public Node insert(Node root, int data) {
+		if(root == null) {
+			root = new Node(data);
+			return root;
+		}else {
+			if(data < root.data) {
+				root.left = insert(root.left, data);
+			}else if(data > root.data){
+				root.right = insert(root.right, data);
+			}
 		}
-
-
-
-
-
-		return null;
+		return root;
+	}
+	
+	public int maxElement(Node root) {
+		if(root == null) {
+			return -1;
+		}else if(root.right == null){
+			return root.data;
+		}else {
+			return maxElement(root.right);
+		}
 	}
 
 
 
 	public static void main(String[] args) {
 		BinarySearchTree bst = new BinarySearchTree();
-		bst.root = new Node(5);
-		bst.root.left = new Node(3);
-		bst.root.left.left = new Node(2);
-		bst.root.left.right = new Node(4);
-		bst.root.right = new Node(7);
-		bst.root.right.left = new Node(6);
-		bst.root.right.right = new Node(8);
-
-		System.out.println(bst.searchRecursive(bst.root, 8).data);
-		System.out.println(bst.searchRecursive(bst.root, 8).left);
-		System.out.println(bst.searchRecursive(bst.root, 8).right);
+		bst.insert(40);
+		bst.insert(30);
+		bst.insert(50);
+		bst.insert(20);
+		
+		System.out.println(bst.maxElement(bst.root));
 	}
 
 }

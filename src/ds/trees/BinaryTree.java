@@ -274,21 +274,148 @@ public class BinaryTree {
 		return leve;
 	}
 
-	public void constructTreeFromInOrederAndPreOrder() {
+	public int maxElement(Node root) {
+		
+		if(root == null) {
+			return -1;
+		}else if(root.left == null){
+			if(root.data > maxElement(root.right)) {
+				return root.data;
+			}else {
+				return maxElement(root.right);
+			}
+		}else if(root.right == null) {
+			if(root.data > maxElement(root.left)) {
+				return root.data;
+			}else {
+				return maxElement(root.left);
+			}
+		}else {
+			int max = 0;
+			if(maxElement(root.left) > maxElement(root.right)) {
+				max = maxElement(root.left);
+			}else {
+				max = maxElement(root.right);
+			}
+			
+			if(max > root.data) {
+				return max;
+			}else {
+				return root.data;
+			}
+		}
+	}
 	
+	public void sumPaths(Node node, int paths, int sum) {
+	
+		if(node == null) {
+			return;
+		}else {
+			
+			sum+=node.data;
+			sumPaths(node.left, paths, sum);
+			sumPaths(node.right, paths, sum);
+			
+			if(node.left == null && node.right == null) {
+				if(sum > 0)
+					System.out.println(paths+1);
+			}
+		}
+	}	
+	
+	
+	public void printLeafNodes(Node node) {
+		if(node == null) {
+			return;
+		}
+		printLeafNodes(node.left);
+		printLeafNodes(node.right);
+		if(node.left == null && node.right == null) {
+			System.out.println(node.data);
+		}
+		
+	}
+	
+	public void deepestLeftLeafNode(Node node) {
+		
+		if(node == null) {
+			return;
+		}
+		
+		printLeafNodes(node.left);
+		
+		if(node.left == null && node.right == null) {
+			System.out.println(node.data);
+		}
 		
 	}
 	
 	
+	public void printAllPaths(Node node) {
+		int[] arr = new int[1000];
+		printEachPath(node, arr, 0);
+	}
+	
+	
+	private void printEachPath(Node node, int[] arr, int length) {
+		
+		if(node == null) {
+			return;
+		}
+		
+		arr[length] = node.data;
+		length++;
+		
+		if(node.left == null && node.right == null) {
+			printArray(arr, length);
+		}else {
+			printEachPath(node.left, arr, length);
+			printEachPath(node.right, arr, length);
+		}
+		
+	}
+
+	private void printArray(int[] arr, int length) {
+		for(int i=0; i< length; i++) {
+			System.out.print(arr[i]);
+		}
+		System.out.println("");
+	}
+	
+	public boolean isFoldable(Node node) {
+		if(node == null) {
+			return true;
+		}
+		
+		return foldableUtil(node.left, node.right);
+		
+	}
+	
+	public boolean foldableUtil(Node node1, Node node2) {
+		if(node1 != null && node2 != null) {
+			return true;
+		}
+		if(node1 == null && node2 == null) {
+			return true;
+		}
+		return false;
+	}
+	
+
 	public static void main(String[] args) {
 		BinaryTree bt = new BinaryTree();
 		bt.root = new Node(1);
 		bt.root.left = new Node(2);
 		bt.root.right = new Node(3);
 		bt.root.left.left = new Node(4);
-		bt.root.left.right = new Node(5);
-
-		System.out.println(bt.getLevel(bt.root, 5, 0));
+		bt.root.right.left = new Node(5);
+		bt.root.right.right = new Node(8);
+		bt.root.right.left.left = new Node(6);
+		bt.root.right.left.right = new Node(7);
+		bt.root.right.right.left = new Node(9);
+		bt.root.right.right.right = new Node(10);
+		
+		System.out.println(bt.isFoldable(bt.root));
 	}
 
 }

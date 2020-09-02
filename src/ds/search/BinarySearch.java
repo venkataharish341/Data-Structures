@@ -33,12 +33,39 @@ public class BinarySearch {
 		return -1;
 	}
 
+	
+	private char singleCharRecursion(char[] arr, int startPos, int endPos){
+		
+		if((endPos-startPos)%2 == 1) {
+			return '1';
+		}
+		
+		int midPos;
+		while (startPos < endPos) {
+			midPos = startPos + (endPos- startPos)/2;
+			
+			if(arr[midPos + 1] == arr[midPos]) {
+				startPos = midPos;
+				return singleCharRecursion(arr, startPos, endPos);
+			}else if(arr[midPos - 1] == arr[midPos]) {
+				endPos = midPos;
+				return singleCharRecursion(arr, startPos, endPos);
+			}else {
+				return arr[midPos];
+			}
+			
+		}
+		return '1';
+	}
 
 	public static void main(String[] args) {
-		int arr[] = {1,2,3,4,5};
-		System.out.println(new BinarySearch().searchAnElementRecursive(arr, 0, 4, 5));
-		System.out.println(new BinarySearch().searchAnElement(arr, 0, 4, 4));
-
+		char arr[] = null; //'a','a','b','b','c','c','d', 'd','e','e'
+		System.out.println(new BinarySearch().singleCharRecursion(arr, 0, 0));
+		
+		/*System.out.println(new BinarySearch().searchAnElementRecursive(arr, 0, 4, 5));
+		System.out.println(new BinarySearch().searchAnElement(arr, 0, 4, 4));*/
+		
+		
 
 	}
 

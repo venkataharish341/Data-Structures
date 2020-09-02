@@ -9,7 +9,7 @@ public class StackWithArray {
 	StackWithArray() {
 		top = -1;
 	}
-
+	
 	private boolean push(int i) {
 		if (top > MAX) {
 			System.out.println("Stack Overflown");
@@ -44,7 +44,7 @@ public class StackWithArray {
 	}
 
 	public static void main(String[] args) {
-
+		
 		StackWithArray s = new StackWithArray();
 		s.push(10);
 		s.push(20);
